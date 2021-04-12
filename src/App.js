@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import {BrowserRouter,Route,Switch,NavLink} from 'react-router-dom';
+import GlavniNav from './GlavniNav';
+import HooksPredvorje from "./Hooks/HooksOpćenito/HooksPredvorje"
+import OtacRefs from './RefsAndForwardRefs/OtacRefs';
+import ObjectCompLobby from './ObjectCompReact/ObjectCompLobby';
+import LobbyLifecycle from './LifecycleClassMethods/LobbyLifecycle';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  
+      <BrowserRouter>
+          <Switch>
+            
+         <Route path="/" exact component={GlavniNav}/>
+        <Route path="/HooksPredvorje" component={HooksPredvorje}/>
+        <Route path="/refs" component={OtacRefs}/>
+        <Route path="/ObjectCompLobby" component={ObjectCompLobby}/>
+        <Route path="/LobbyLifecycle" component={LobbyLifecycle}/>
+     
+          </Switch>
+      </BrowserRouter>
+      
+   
   );
 }
 
