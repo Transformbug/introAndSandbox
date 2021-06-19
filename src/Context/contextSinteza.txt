@@ -1,0 +1,76 @@
+Dodatne važne informacija:
+//1.Svaki put kada se promjeni ono što je na value propu u nekom Provideru onda će se re-rendati sve komponete koje konzumiraju
+//podatke iz Providera bez obzira imaju ili React.memo ili PureConpometa na sebi ili se radi React.mema() ili PureComponeta nije re-rendao
+//neki njihov ancestor koji ne konzumira ono što Provider nudi.
+//2. Možemo imati recimo Provider u nekoj Djed komponeti i kasnije imati neki drugi Provider u Sin komponetai i onda ako Unuk komponeta
+//konzumira nešto iz Providera onda će dobiti podatke iz najbližeg ancestor providera tj. dobiti će podatke iz Sin komponente.
+3.Ne stavlja on the fly objekt kao vrijednost value propa na Provideru jer svaki put kada se re-redna komponeta gdje je Provider
+će se re-rendati i svi kozumnenti Context podataka jer se uspoređuju stari i novi objekt by reference. Kada koristimo Provider unutar
+class komponeti onda obično je preporaku staviti dio state objekta ili cijeli state sa this.state. Kada se koriste obične funkcionale komponente i hooks
+onda se može riješitit ta situacija da imamo cijeli state na jednom objektu kao u class based komponetama ili se može napraviti ono što sam
+ja napravio sa useMemo i kreirati tamo objekt koji će biti postavljen kao vrijednost value propa na Provideru.
+Znam da je Max stavljao on the fly objekt, ali to je jako loša praksa.
+4. Unutar useContext() hook se treba ubaciti context objekt koji smo kreirali sa React.createContext i ništa drugo se ne može ubacitit umjesto toga! 
+
+
+
+//Ovo je moja ugurba incijalna sinteza:
+Context Api za class based komponente:
+Prva verzija:
+1.Kreiraš file auth-contex.js i staviš ovo:
+
+import React from 'react'
+
+const authContext=React.createContext(); 
+
+export default authContext;
+
+2. Importaš ovo tamo gdje ga želiš koristiti, recimo: 
+import Authcontext from '../context/auth-context';
+Nakon toga koristiš ga na ovaj način u filu odakle želiš prebaciti podatke bez prop drillinga:
+
+<Authcontex.Provider value="nešto"> Sve one kompontee
+i njihovi nasljedici koji je imati pristup onome navedomo u propu value
+  </Authcontex.Provider> 
+
+3.Tamo gdje želiš iskoristit podtake iz value propa na AuthContex.Provider opet prvo importaš:
+import Authcontext from '../context/auth-context';
+Zatim tamo omotaš jsx/js code gdje ti trebaju ti podaci sa: 
+<Authcontext.Consumer>{(context)=>context? "logiran": "nije logiran"} </AuthContext.Consumer>
+Znači unutar unutar tih Consumer omotača može se napisati funkcija koja ima na prvog argumentu context pristup
+onome što je na value unutar Authcontex.Provider value.
+Stvar je što se ovo može samo korisiti unutar jsx-a u returnu. Treba korisiti drugu verziju ako želimo imati pristup
+tim podacimo u ostatku komponted.
+
+Druga verzija(za class based komponetne)
+Prva dva koraka iz prva verzije vrijede, treći je nešto drugačiji:
+Isto se importat tamo ga se želi konzmirati neki podacti Authcontext samo kasnije se napravi ovo:
+Negdje, recimo u constructor se postavi: static contextType=Authcontext; (mora biti baš static contextType);
+Zatim ako nam negdje u nekim metodama treba vrijednost contexta tj. onoga što je na value u Authcontex provideru
+onda samo stavimo: this.context;
+Za korištenje unutar jsx-a: isto pristup sa this.context pa recimo imam situaije poput:
+ { this.context.authenticated ? <p>Authenicated</p>: <p>Please log in</p> }
+(primjeti da ga ne treba omotati u consumer omotač)
+
+Context za klasične funkcije tj. hooks:
+Prva dva koraka su ista kao i za class based kompontede(vidi gore pod broj 1. i 2.)
+Zatim treci korak za hooks treba biti ovakav,primjerce:
+import AuthContext from '../../context/auth-context';(ovdje je AuthContex umjesto Authcontext gori,ali moglo je i
+ostatka kao gori za class based,naziv nije bitan može se varijabla na koju spremamo rezultat React.CreateContex() poziv zvati bilo kako)
+import React, { useEffect, useContext } from 'react';
+
+Unutar običnog hooks koda, eventalno nagdje na vrhu stavimo:
+const authContext=useContext(AuthContext);
+
+Zatim koristmo na način recimo:
+<button onClick={authContext.login}>Log in </button>
+Znači samo pristupamo some authContext objektu, ne mora biti unutar samog jsx.
+
+Notes: Što se tiče koraka broj 1. Naravno, ne mora se kreirati React.creatContext() objekt u posebno file.
+Može se kreirati u file gdje koristmo Context.Provider.
+Također, ako se odlučimo na kreiranje u posebnom file React.createContext objekt onda se može često vidjeti
+pattern gdje se tu isto napiše neka funkcija koja ima na sebi Context.Provier omotač i između props.children.
+Onda exportamo tu funckiju tamo gdje želimo postaviti Provider i exporatmo React.createContext objekt
+tamo gdje želimo korisiti što je na value prop-u Providera.
+VAŽNO: vidit context screenshot u react folderu što se tiče re-renderinga.
+

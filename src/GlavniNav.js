@@ -10,6 +10,10 @@ function GlavniNav(props) {
         <NavLink to="/refs">Refs</NavLink>
         <NavLink to="/ObjectCompLobby">ObjectComparisonReact</NavLink>
         <NavLink to="/LobbyLifecycle">LifecycleClassMethods</NavLink>
+        <NavLink to="/ErrHandPredvorje">Error handling</NavLink>
+        <NavLink to="/ContextPredvorje">Context</NavLink>
+        <NavLink to="/LazyLoadingPredvorje">Lazy Loading</NavLink>
+        <NavLink to="/RaznoPredvorje">Razno</NavLink>
     
          </div>
     );

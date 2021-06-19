@@ -82,7 +82,7 @@ static getDerivedStateFromProps(props, state) {
          re-render. Jedino je promjena state trigger za re-render, samo je pitanje jel se neka komponeta re-render jer se promjenio state property unutar 
          te komponente ili se promjenio state unutar nekog "parent elementa". Pod time(promjena state neke ancestor kom.) očito misle da prop change uzrokuje re-render.*/}
          
-         <Mate nekiProp={this.state.zaPropsKey} jošJedanProp={this.name}/>
+         <Mate nekiProp={this.state.zaPropsKey} jošJedanProp={this.name} oznaka="-prvi"/>
          {/* Note: nije bitno što ne korismo ovaj gori jošJedanProp unutar Mate.js bitno je da se cijeli props objekt untar Mate.js promjeni za naš test */}
         
          {/* VAŽNO: još jedan 'Mate' da ilustira zašto se neki se neki elementi i lifecycle hooks rendaju više puta. */}
@@ -90,11 +90,11 @@ static getDerivedStateFromProps(props, state) {
          samo to zanimljivo. Također je redoslijed neočekivan u tom slučaju(creation phase). Pogledaj raspored dobro između Ante i Mate.Tek kad se obavila sva 
          četri constuructora,getDerivedStateFromProps, četri rendera se dogodio ComponentDidMount. Nije se dogodilo Mate 3-metode,Ante 4-metoda,onda na
          kraju mate compunetDidmount(bez App.js mislim) pa onda za ovaj doli element se to isto ponovi. */}
-         {/* <Mate nekiProp={this.state.zaPropsKey}/> */}
+         <Mate nekiProp={this.state.zaPropsKey} oznaka="-drugi"/>
 
          {/*JAKO VAŽNO: iskommentiraj ovdje ovaj FnBasedKomp, Ante kompnentu unutar Mate.js i uključi ovdje drugi <Mate/> najbolje će se tada vidjeti onaj 'neobičan' redoslijed */}
       
-          <FnBasedKomp nekiProp={this.lastName} jošJedanProp={this.avionIme}/>
+          {/* <FnBasedKomp nekiProp={this.lastName} jošJedanProp={this.avionIme}/> */}
          
        
       </div>

@@ -4,7 +4,7 @@ import Ante from './Ante.js'
 export class Mate extends Component {
 
     static getDerivedStateFromProps(props, state) {
-        console.log('Mate.js, getDerivedStateFromProps');
+        console.log(`Mate.js${props.oznaka}, getDerivedStateFromProps`);
         //VAŽNO: state predstavlja state unutar komponete gdje je zapisana ova metoda i kad je riječ o lifecyle upadate onda će imati vrijednost novog state
         // ovdje ako je to bio trigger za re-render i upadate ciklus.
         //VAŽNO: Također imati će nove vrijednosti props objekta ako promjena state ancestora također i uzrokuje promjenu props objekta koji ova metoda prima.  
@@ -20,7 +20,7 @@ export class Mate extends Component {
      } 
 
     shouldComponentUpdate(nextProps, nextState) {
-      console.log('Mate.js, shouldComponentUpadate');
+      console.log(`Mate.js${this.props.oznaka}, shouldComponentUpadate`);
      
       
     //   console.log('nextProps unutar  shouldCompenentUpdate:', nextProps)
@@ -55,7 +55,7 @@ export class Mate extends Component {
    
  
     render() {
-        console.log('Mate.js, render metoda')
+        console.log(`Mate.js${this.props.oznaka}, render metoda`)
         // console.log("Mate.js, render metoda trenutni state",this.state)
         // I u lifecylce upadate fazi je ovo treća lifecycle hook tj. metoda po redu.
          let hoceLiEksplictnoDodavanjeUDomUzrokovatiReRenderAppJs=null;
@@ -76,7 +76,7 @@ export class Mate extends Component {
     }
 
     getSnapshotBeforeUpdate(prevProps, prevState) {
-        console.log('Mate.js, getSnapShotBeforeUpdate')
+        console.log(`Mate.js${this.props.oznaka}, getSnapShotBeforeUpdate`)
         // console.log('getSnapshotBeforeUpadate','prevProps', prevProps)
         //console.log("this.props u getSnapshotBeforeUpadate:",this.props)
         //console.log("--------------------------------------------------")
@@ -95,7 +95,7 @@ export class Mate extends Component {
     }
 
    componentDidUpdate() {
-       console.log('Mate.js, componentDidUpdate metoda')
+       console.log(`Mate.js${this.props.oznaka}, componentDidUpdate metoda`)
       //  console.log("this.state unutar componentDidUpdate", this.state)
        
    } 
@@ -104,11 +104,11 @@ export class Mate extends Component {
 
   constructor(props) {
     super(props)
-    console.log('Mate.js, Constructor')
+    console.log(`Mate.js${this.props.oznaka}, Constructor`)
   }
   
   componentDidMount() {
-    console.log('Mate.js, componentDidMount'); 
+    console.log(`Mate.js${this.props.oznaka}, componentDidMount`); 
     }
 }
 

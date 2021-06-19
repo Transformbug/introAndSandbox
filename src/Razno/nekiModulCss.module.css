@@ -1,0 +1,15 @@
+.nekaKlasaUnutarCssModula{
+    color: salmon;
+}
+
+:global .bezveze{
+  color: blue;
+}
+
+.brojJedan{
+   color: yellowgreen    
+}
+
+.brojDva{
+  font-size: 30px;
+}
